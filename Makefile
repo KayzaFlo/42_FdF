@@ -1,0 +1,1 @@
+gcc maintest.c -lmlx -framework OpenGL -framework AppKit
