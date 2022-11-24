@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 13:25:46 by fgeslin           #+#    #+#              #
-#    Updated: 2022/11/24 11:47:20 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/11/24 12:39:07 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ PINK		:= \033[1;35m
 CYAN 		:= \033[1;36m
 
 .c.o:
-	@ echo "$(YELLOW)Compiling: $< $(WHITE)"
+	@ echo "$(YELLOW)Compiling: $(WHITE)$<"
 	@ ${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 	
 all: $(NAME)
