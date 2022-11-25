@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 09:33:33 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/24 11:41:14 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/24 13:02:52 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 64
 # endif
 
 typedef struct s_buf

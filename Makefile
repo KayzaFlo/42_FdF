@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/11/24 12:39:08 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/11/25 15:44:17 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,10 @@ RM			:= rm -f
 CFLAGS		= -Wall -Wextra -Werror
 
 #####	SOURCES		############################################################
-SRC			=	fdf.c \
-				draw.c
+SRC			=	src/fdf.c \
+				src/input.c \
+				src/draw.c \
+				src/parsing.c
 OBJ			= $(SRC:.c=.o)
 
 #####	Makefile  objs		###################################################
