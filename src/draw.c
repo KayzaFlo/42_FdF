@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:39:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/28 12:57:05 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/28 13:10:25 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient)
 	while (i <= step)
 	{
 		color = (gradient.x * (1 - i / step)) + (gradient.y * (i / step));
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, a.x, a.y, color);
+		mlx_pixel_put(data->mlx_ptr, data->win_ptr, a.x, a.y, gradient.x);
 		a.x += dir.x;
 		a.y += dir.y;
 		i += 1;
@@ -47,7 +47,7 @@ int	drawarr(t_data *data, t_int2 gradient)
 	t_float2	enddraw;
 	float		amp;
 
-	amp = .1f;
+	amp = 1.0f;
 	cursor.x = 0;
 	while (cursor.x < data->field_size.x)
 	{
@@ -64,7 +64,7 @@ int	drawarr(t_data *data, t_int2 gradient)
 				startdraw.y -= (data->field[cursor.x][cursor.y] * amp) * data->zoom / 2;
 				grad.x = gradient.x + gradient.y * data->field[cursor.x][cursor.y] / (data->rangeheight.y - data->rangeheight.x);
 				grad.y = gradient.x + gradient.y * data->field[cursor.x + 1][cursor.y] / (data->rangeheight.y - data->rangeheight.x);
-				drawline(startdraw, enddraw, data, grad);
+				drawline(startdraw, enddraw, data, gradient);
 			}
 			/* DRAW V LINE */
 			if (cursor.y + 1 < data->field_size.y)
@@ -75,7 +75,7 @@ int	drawarr(t_data *data, t_int2 gradient)
 				startdraw.y -= (data->field[cursor.x][cursor.y] * amp) * data->zoom / 2;
 				grad.x = gradient.x + gradient.y * data->field[cursor.x][cursor.y] / (data->rangeheight.y - data->rangeheight.x);
 				grad.y = gradient.x + gradient.y * data->field[cursor.x][cursor.y + 1] / (data->rangeheight.y - data->rangeheight.x);
-				drawline(startdraw, enddraw, data, grad);
+				drawline(startdraw, enddraw, data, gradient);
 			}			
 			cursor.y++;
 		}

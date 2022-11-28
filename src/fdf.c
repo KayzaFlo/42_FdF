@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/28 12:57:36 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/28 14:10:33 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	debugparse(t_data *data)
 {
-	for (size_t i = 0; i < 11; i++)
+	for (int i = 0; i < data->field_size.x; i++)
 	{
-		for (size_t j = 0; j < 19; j++)
+		for (int j = 0; j < data->field_size.y; j++)
 		{
 			printf("% 4d", data->field[i][j]);
 		}
@@ -29,12 +29,19 @@ int	main(int argc, char const *argv[])
 {
 	t_data		data;
 	t_int2		gradient = {0x00FF00, 0xFF0000};
+	// int			test[5][3] = {
+	// 	{0, 0, 0},
+	// 	{0, 0, 0},
+	// 	{0, 0, 0},
+	// 	{0, 0, 0},
+	// 	{0, 0, 0}
+	// };
 
 	if (argc != 2)
 		return (-1);
 	/* SET DATA VAR */
 	data.is_clicked = 0;
-	data.zoom = 32;
+	data.zoom = 16;
 	/* PARSE FILE */
 	set_field_from_file(&data, argv[1]);
 	/* DEBUG */	debugparse(&data);
