@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/25 15:43:58 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/28 12:58:19 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,34 @@ static int	get_wc(const char *str, char sep)
 
 int	set_field_from_file(t_data *data, const char *path)
 {
-	t_vector2	ind;
-	int			fd;
-	char		*line;
-	char		**linearr;
+	t_int2	ind;
+	int		fd;
+	char	*line;
+	char	**linearr;
 
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	data->field_size.x = 0;
 	data->field_size.y = get_wc(line, ' ') + 1;
-	while(line)
+	while (line)
 	{
 		data->field_size.x++;
 		line = get_next_line(fd);
 	}
-	data->field = ft_calloc(data->field_size.x, sizeof(int*));
+	data->field = ft_calloc(data->field_size.x, sizeof(int *));
 	ind.y = 0;
 	while (ind.y < data->field_size.y)
 	{
 		data->field[ind.y] = ft_calloc(data->field_size.y, sizeof(int));
 		ind.y++;
 	}
-	printf("x: %d, y: %d\n", data->field_size.x, data->field_size.y);
+	printf("x: %d, y: %d\n", data->field_size.x, data->field_size.y); /* DEBUG */
 	close(fd);
 
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	ind.y = 0;
-	while(line)
+	while (line)
 	{
 		ind.x = 0;
 		linearr = ft_split(line, ' ');
@@ -76,5 +76,5 @@ int	set_field_from_file(t_data *data, const char *path)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return(0);
+	return (0);
 }

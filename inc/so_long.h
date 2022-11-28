@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/25 15:44:35 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/28 12:54:14 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-#include "../libft/libft.h"
+# include "../libft/libft.h"
 
 enum {
 	ON_KEYDOWN = 2,
@@ -31,40 +31,49 @@ enum {
 	ON_DESTROY = 17
 };
 
-typedef struct s_vector2
+typedef struct s_int2
 {
 	int	x;
 	int	y;
-}	t_vector2;
+}	t_int2;
 
-typedef struct s_mlxrefs
+typedef struct s_float2
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-}	t_mlxrefs;
+	float	x;
+	float	y;
+}	t_float2;
 
 typedef struct s_data
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	int			is_clicked;
-	t_vector2	last_click_pos;
-	t_vector2	view_pos;
-	t_vector2	view_rot;
-	t_vector2	rangeheight;
-	int			**field;
-	t_vector2	field_size;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	int		is_clicked;
+	t_int2	last_click_pos;
+	t_int2	view_pos;
+	t_int2	view_rot;
+	int		zoom;
+	t_int2	rangeheight;
+	int		**field;
+	t_int2	field_size;
 }	t_data;
 
-int	set_field_from_file(t_data *data, const char *path);
+/* PARSING */
+int		set_field_from_file(t_data *data, const char *path);
 
-int	drawline(t_vector2 startpos, t_vector2 endpos, t_data *data, t_vector2 gradient);
-int	drawarr(t_data *data, t_vector2 gradient);
+/* DRAWS */
+int		drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient);
+int		drawarr(t_data *data, t_int2 gradient);
 
-int	close_win(void);
-int	deal_key(int key, void *param);
-int	deal_mouse(int key, int x, int y, void *param);
-int	up_mouse(int key, int x, int y, void *param);
-int	move_mouse(int x, int y, void *param);
+/* INPUTS */
+int		i_winclose(void);
+int		i_keydown(int key, void *param);
+int		i_mousedown(int key, int x, int y, void *param);
+int		i_mouseup(int key, int x, int y, void *param);
+int		i_mousemove(int x, int y, void *param);
+
+/* UPDATES */
+int		draw_update(t_data *data, void f(t_data *, void *), void *param);
+void	set_movement(t_data *data, void *param);
+void	set_zoom(t_data *data, void *param);
 
 #endif

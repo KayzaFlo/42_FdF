@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/11/25 15:44:17 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/11/28 12:53:07 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ CFLAGS		= -Wall -Wextra -Werror
 SRC			=	src/fdf.c \
 				src/input.c \
 				src/draw.c \
-				src/parsing.c
+				src/parsing.c \
+				src/update.c
 OBJ			= $(SRC:.c=.o)
 
 #####	Makefile  objs		###################################################
