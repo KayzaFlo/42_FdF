@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/28 13:31:22 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/29 13:00:42 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+
+# define S_WIDTH 1920
+# define S_HEIGHT 1080
 
 enum {
 	ON_KEYDOWN = 2,
@@ -51,10 +54,17 @@ typedef struct s_data
 	t_int2	last_click_pos;
 	t_int2	view_pos;
 	t_int2	view_rot;
-	int		zoom;
+	float	zoom;
 	t_int2	rangeheight;
 	int		**field;
+	int		**field_color; //?
 	t_int2	field_size;
+
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 }	t_data;
 
 /* PARSING */

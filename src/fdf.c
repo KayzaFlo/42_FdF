@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/28 14:10:33 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/29 13:02:47 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/so_long.h"
+#include "../inc/fdf.h"
 
 int	debugparse(t_data *data)
 {
@@ -24,6 +24,15 @@ int	debugparse(t_data *data)
 	}
 	return (0);
 }
+
+// int	render(void *param)
+// {
+// 	t_data	*data;
+
+// 	data = (t_data *)param;
+// 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
+// 	return (0);
+// }
 
 int	main(int argc, char const *argv[])
 {
@@ -47,7 +56,10 @@ int	main(int argc, char const *argv[])
 	/* DEBUG */	debugparse(&data);
 	/* SETUP MLX */
 	data.mlx_ptr = mlx_init();
-	data.win_ptr = mlx_new_window(data.mlx_ptr, 1080, 720, "1080p Window");
+	data.win_ptr = mlx_new_window(data.mlx_ptr, S_WIDTH, S_HEIGHT, "1080p Win");
+	data.img = mlx_new_image(data.mlx_ptr, S_WIDTH, S_HEIGHT);
+	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length,
+								&data.endian);
 	/* DRAW */
 	drawarr(&data, gradient);
 	/* GET INPUT */
@@ -56,6 +68,7 @@ int	main(int argc, char const *argv[])
 	mlx_hook(data.win_ptr, ON_MOUSEDOWN, 0, i_mousedown, (void *)&data);
 	mlx_hook(data.win_ptr, ON_MOUSEUP, 0, i_mouseup, (void *)&data);
 	mlx_hook(data.win_ptr, ON_MOUSEMOVE, 0, i_mousemove, (void *)&data);
+	// mlx_loop_hook(data.mlx_ptr, render, (void *)&data);
 	/* LOOP */
 	mlx_loop(data.mlx_ptr);
 	/* EXIT */

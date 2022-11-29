@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:30:30 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/28 12:45:38 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/29 13:03:00 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/so_long.h"
+#include "../inc/fdf.h"
 
 int	i_winclose(void)
 {

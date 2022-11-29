@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/28 12:45:58 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/29 13:03:14 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/so_long.h"
+#include "../inc/fdf.h"
 
 int	draw_update(t_data *data, void f(t_data *, void *), void *param)
 {
