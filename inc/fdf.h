@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/29 13:00:42 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/29 15:23:37 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef FDF_H
+# define FDF_H
 
 # include <mlx.h>
 # include <math.h>
@@ -57,7 +57,6 @@ typedef struct s_data
 	float	zoom;
 	t_int2	rangeheight;
 	int		**field;
-	int		**field_color; //?
 	t_int2	field_size;
 
 	void	*img;

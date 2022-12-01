@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/29 13:01:09 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/11/29 14:50:32 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	set_field_from_file(t_data *data, const char *path)
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	ind.x = 0;
+	data->rangeheight.x = 0;
+	data->rangeheight.y = 0;
 	while (line)
 	{
 		ind.y = 0;

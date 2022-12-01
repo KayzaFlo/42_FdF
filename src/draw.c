@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:39:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/29 13:07:41 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/01 13:36:59 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,22 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
+}
+
+int	tween_color(t_int2 gradient, float x)
+{
+	int	t;
+	int	r;
+	int	g;
+	int	b;
+
+	x = -(cos(3.1415f * x) - 1) / 2;
+	t = ((gradient.x >> 24) & 0xFF) * (1 - x) + ((gradient.y >> 24) & 0xFF) * x;
+	r = ((gradient.x >> 16) & 0xFF) * (1 - x) + ((gradient.y >> 16) & 0xFF) * x;
+	g = ((gradient.x >> 8) & 0xFF) * (1 - x) + ((gradient.y >> 8) & 0xFF) * x;
+	b = (gradient.x & 0xFF) * (1 - x) + (gradient.y & 0xFF) * x;
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 
 int	drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient)
@@ -47,7 +62,7 @@ int	drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient)
 	i = 1;
 	while (i <= step)
 	{
-		color = (gradient.x * (1 - i / step)) + (gradient.y * (i / step));
+		color = tween_color(gradient, i / step);
 		if (a.x > 64 && a.x < S_WIDTH - 64 && a.y > 64 && a.y < S_HEIGHT - 64)
 			my_mlx_pixel_put(data, (int)a.x % S_WIDTH, (int)a.y % S_HEIGHT, color);
 		a.x += dir.x;
@@ -64,16 +79,19 @@ int	drawarr(t_data *data, t_int2 gradient)
 	t_float2	startdraw;
 	t_float2	enddraw;
 	float		amp;
+	int			height;
+	int			maxheight;
 
 	amp = 1.0f;
 	cursor.x = 0;
+	maxheight = data->rangeheight.y - data->rangeheight.x;
 	while (cursor.x < data->field_size.x)
 	{
 		cursor.y = 0;
 		while (cursor.y < data->field_size.y)
 		{
-			startdraw.x = data->view_pos.x + cursor.x * data->zoom + cursor.y * data->zoom;
-			startdraw.y = data->view_pos.y + cursor.x * data->zoom / 2 - cursor.y * data->zoom / 2;
+			startdraw.x = data->view_pos.x + cursor.x * data->zoom + cursor.y * data->zoom + S_WIDTH / 2;
+			startdraw.y = data->view_pos.y + cursor.x * data->zoom / 2 - cursor.y * data->zoom / 2 + S_HEIGHT / 2;
 			/* DRAW H LINE */
 			if (cursor.x + 1 < data->field_size.x)
 			{
@@ -84,9 +102,11 @@ int	drawarr(t_data *data, t_int2 gradient)
 				// >> doit lire ca pour eviter la derniere ligne V decalee
 			if (cursor.x + 1 < data->field_size.x)
 			{
-				grad.x = gradient.x + gradient.y * data->field[cursor.x][cursor.y] / (data->rangeheight.y - data->rangeheight.x);
-				grad.y = gradient.x + gradient.y * data->field[cursor.x + 1][cursor.y] / (data->rangeheight.y - data->rangeheight.x);
-				drawline(startdraw, enddraw, data, gradient);
+				height = data->field[cursor.x][cursor.y] - data->rangeheight.x;
+				grad.x = tween_color(gradient, (float)(height) / (float)(maxheight));
+				height = data->field[cursor.x + 1][cursor.y] - data->rangeheight.x;
+				grad.y = tween_color(gradient, (float)(height) / (float)(maxheight));
+				drawline(startdraw, enddraw, data, grad);
 			}
 			/* DRAW V LINE */
 			if (cursor.y + 1 < data->field_size.y)
@@ -95,9 +115,11 @@ int	drawarr(t_data *data, t_int2 gradient)
 				enddraw.x = startdraw.x + data->zoom;
 				enddraw.y = startdraw.y - (data->field[cursor.x][cursor.y + 1] * amp + 1) * (data->zoom / 2);
 				startdraw.y -= (data->field[cursor.x][cursor.y] * amp) * data->zoom / 2;
-				grad.x = gradient.x + gradient.y * data->field[cursor.x][cursor.y] / (data->rangeheight.y - data->rangeheight.x);
-				grad.y = gradient.x + gradient.y * data->field[cursor.x][cursor.y + 1] / (data->rangeheight.y - data->rangeheight.x);
-				drawline(startdraw, enddraw, data, gradient);
+				height = data->field[cursor.x][cursor.y] - data->rangeheight.x;
+				grad.x = tween_color(gradient, (float)(height) / (float)(maxheight));
+				height = data->field[cursor.x][cursor.y + 1] - data->rangeheight.x;
+				grad.y = tween_color(gradient, (float)(height) / (float)(maxheight));
+				drawline(startdraw, enddraw, data, grad);
 			}			
 			cursor.y++;
 		}
