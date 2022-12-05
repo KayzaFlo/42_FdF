@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 15:06:19 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 16:47:04 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include "../libft/libft.h"
 
 # define S_WIDTH 1920
-# define S_HEIGHT 1080
-# define S_HEIGHT 1080
 # define S_HEIGHT 1080
 
 enum {
@@ -47,6 +45,13 @@ typedef struct s_float2
 	float	x;
 	float	y;
 }	t_float2;
+
+typedef struct line
+{
+	t_float2	from;
+	t_float2	to;
+	t_int2		gradient;
+}	t_line;
 
 typedef struct s_data
 {
@@ -74,13 +79,14 @@ typedef struct s_data
 int		set_field_from_file(t_data *data, const char *path);
 
 /* DRAWS */
+void	putpiximg(t_data *data, int x, int y, int color);
 int		render(void *param);
 int		drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient);
 int		drawiso(t_data *data, t_int2 gradient);
 
 /* INPUTS */
 int		i_winclose(void);
-int		i_keydown(int key, void *param);
+int		i_keydown(int key);//, void *param);
 int		i_mousedown(int key, int x, int y, void *param);
 int		i_mouseup(int key, int x, int y, void *param);
 int		i_mousemove(int x, int y, void *param);
@@ -92,5 +98,9 @@ void	set_zoom(t_data *data, void *param);
 
 /* TWEEN */
 int		tween_color(t_int2 gradient, float x);
+
+/* UTILS */
+void	set_int2(t_int2 *int2, int a, int b);
+void	set_float2(t_float2 *float2, float a, float b);
 
 #endif

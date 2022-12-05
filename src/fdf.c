@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 15:16:07 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 16:44:57 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	init_vars(t_data *data, t_int2 *gradient)
 	data->is_clicked = 0;
 	data->zoom = 16;
 	data->amp = 1;
-	gradient->x = 0x00FF00;
-	gradient->y = 0xFF0000;
+	set_int2(gradient, 0xFFFFFF, 0xFF0000);
+	set_int2(&data->view_pos, 0, 0);
 }
 
 static void	init_mlx(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:01:35 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 15:22:51 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 16:14:13 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,19 @@ int	drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient)
 	float		i;
 	int			color;
 
-	dir.x = b.x - a.x;
-	dir.y = b.y - a.y;
+	set_float2(&dir, b.x - a.x, b.y - a.y);
 	if (fabs(dir.x) >= fabs(dir.y))
 		step = fabs(dir.x);
 	else
 		step = fabs(dir.y);
-	dir.x /= step;
-	dir.y /= step;
+	set_float2(&dir, dir.x / step, dir.y / step);
 	i = 1;
 	while (i <= step)
 	{
 		color = tween_color(gradient, i / step);
 		if (a.x > 64 && a.x < S_WIDTH - 64 && a.y > 64 && a.y < S_HEIGHT - 64)
 			putpiximg(data, (int)a.x % S_WIDTH, (int)a.y % S_HEIGHT, color);
-		a.x += dir.x;
-		a.y += dir.y;
+		set_float2(&a, a.x + dir.x, a.y + dir.y);
 		i += 1;
 	}
 	return (0);

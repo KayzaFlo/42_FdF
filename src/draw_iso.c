@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 15:08:15 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 17:35:05 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 static void	set_drawfrom(t_float2 *drawfrom, t_data *data, t_int2 *i)
 {
-	drawfrom->x = i->x * data->zoom + i->y * data->zoom;
-	drawfrom->x += data->view_pos.x + S_WIDTH / 2;
-	drawfrom->y = i->x * data->zoom / 2;
-	drawfrom->y -= (i->y + data->field[i->x][i->y] * data->amp) * data->zoom / 2;
-	drawfrom->y += data->view_pos.y + S_HEIGHT / 2;
+	drawfrom->x = i->x + i->y;
+	drawfrom->x *= data->zoom;
+	drawfrom->x += data->view_pos.x;
+	drawfrom->y = i->x - i->y - data->field[i->x][i->y] * data->amp;
+	drawfrom->y *= data->zoom / 2;
+	drawfrom->y += data->view_pos.y;
 }
 
 static void	set_drawto(t_float2 *drawto, t_data *data, t_int2 i, char next)
@@ -27,12 +28,12 @@ static void	set_drawto(t_float2 *drawto, t_data *data, t_int2 i, char next)
 		i.x++;
 	if (next == 'y')
 		i.y++;
-	drawto->y = (i.x) * data->zoom / 2;
-	drawto->y -= (i.y + data->field[i.x][i.y] * data->amp) * data->zoom / 2;
-	drawto->y += data->view_pos.y + S_HEIGHT / 2;
+	drawto->y = i.x - i.y - data->field[i.x][i.y] * data->amp;
+	drawto->y *= data->zoom / 2;
+	drawto->y += data->view_pos.y;
 }
 
-static void	set_gradient(t_int2 *grad, t_data *data, t_int2 i, char next, t_int2 gradient)
+static void	set_gradient(t_int2 *gradient, t_data *data, t_int2 i, char next)
 {
 	float		height;
 	float		maxheight;
@@ -45,36 +46,39 @@ static void	set_gradient(t_int2 *grad, t_data *data, t_int2 i, char next, t_int2
 	if (next == 'y')
 		i.y++;
 	height = data->field[i.x][i.y] - data->height.x;
-	grad->x = tween_color(gradient, height / maxheight);
+	gradient->x = tween_color(data->gradient, height / maxheight);
 	height = data->field[i.x][i.y] - data->height.x;
-	grad->y = tween_color(gradient, height / maxheight);
+	gradient->y = tween_color(data->gradient, height / maxheight);
+}
+
+static void	set_line(t_line *line, t_data *data, t_int2 i)
+{
+	set_drawfrom(&line->from, data, &i);
+	line->to.x = line->from.x + data->zoom;
+	if (i.x + 1 < data->field_size.x)
+	{
+		set_drawto(&line->to, data, i, 'x');
+		set_gradient(&line->gradient, data, i, 'x');
+		drawline(line->from, line->to, data, line->gradient);
+	}
+	if (i.y + 1 < data->field_size.y)
+	{
+		set_drawto(&line->to, data, i, 'y');
+		set_gradient(&line->gradient, data, i, 'y');
+		drawline(line->from, line->to, data, line->gradient);
+	}
 }
 
 int	drawiso(t_data *data, t_int2 gradient)
 {
-	t_float2	drawfrom;
-	t_float2	drawto;
+	t_line		line;
 	t_int2		i;
-	t_int2		grad;
 
-	i.x = 0;
-	i.y = 0;
+	set_int2(&i, 0, 0);
+	set_int2(&data->gradient, gradient.x, gradient.y);
 	while (i.x < data->field_size.x)
 	{
-		set_drawfrom(&drawfrom, data, &i);
-		drawto.x = drawfrom.x + data->zoom;
-		if (i.x + 1 < data->field_size.x)
-		{
-			set_drawto(&drawto, data, i, 'x');
-			set_gradient(&grad, data, i, 'x', gradient);
-			drawline(drawfrom, drawto, data, grad);
-		}
-		if (i.y + 1 < data->field_size.y)
-		{
-			set_drawto(&drawto, data, i, 'y');
-			set_gradient(&grad, data, i, 'y', gradient);
-			drawline(drawfrom, drawto, data, grad);
-		}
+		set_line(&line, data, i);
 		if (++i.y == data->field_size.x)
 		{
 			i.y = 0;

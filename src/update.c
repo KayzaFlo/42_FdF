@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 15:17:59 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 17:34:39 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 int	draw_update(t_data *data, void f(t_data *, void *), void *param)
 {
-	t_int2	gradient;
 	t_int2	black;
+	t_int2	gradient;
 
-	gradient.x = 0xFFFFFF;
-	gradient.y = 0xFF0000;
-	black.x = 0;
-	black.y = 0;
+	set_int2(&black, 0, 0);
 	drawiso(data, black);
 	f(data, param);
+	set_int2(&gradient, 0xFFFFFF, 0xFF0000);
 	drawiso(data, gradient);
 	return (0);
 }
@@ -40,5 +38,10 @@ void	set_movement(t_data *data, void *param)
 
 void	set_zoom(t_data *data, void *param)
 {
+	float	mult;
+
+	mult = (data->zoom - (*(int *)param * 2 - 9)) / data->zoom;
 	data->zoom -= *(int *)param * 2 - 9;
+	data->view_pos.x += (data->view_pos.x - data->last_click_pos.x) * -(1 - mult);
+	data->view_pos.y += (data->view_pos.y - data->last_click_pos.y) * -(1 - mult);
 }
