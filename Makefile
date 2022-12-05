@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/11/29 13:11:24 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/12/05 15:04:48 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ CFLAGS		= -Wall -Wextra -Werror
 #####	SOURCES		############################################################
 SRC			=	src/fdf.c \
 				src/input.c \
-				src/draw.c \
+				src/draw_basics.c \
+				src/draw_iso.c \
+				src/tween.c \
 				src/parsing.c \
 				src/update.c
 OBJ			= $(SRC:.c=.o)

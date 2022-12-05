@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/01 13:20:33 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 15:17:59 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 int	draw_update(t_data *data, void f(t_data *, void *), void *param)
 {
-	t_int2	gradient = {0xFFFFFF, 0xFF0000};
-	t_int2	black = {0, 0};
+	t_int2	gradient;
+	t_int2	black;
 
-	drawarr(data, black);
+	gradient.x = 0xFFFFFF;
+	gradient.y = 0xFF0000;
+	black.x = 0;
+	black.y = 0;
+	drawiso(data, black);
 	f(data, param);
-	drawarr(data, gradient);
+	drawiso(data, gradient);
 	return (0);
 }
 

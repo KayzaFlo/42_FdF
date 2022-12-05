@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:30:30 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/29 13:03:00 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 15:19:33 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	i_winclose(void)
 
 int	i_keydown(int key, void *param)
 {
-	printf("X%p", param);
 	if (key == 53)
 	{
 		printf("ESCAPED");
@@ -51,7 +50,6 @@ int	i_mouseup(int key, int x, int y, void *param)
 	data = (t_data *)param;
 	if (key == 1)
 		data->is_clicked = 0;
-	printf("mouseup%d\n", key);
 	return (0);
 }
 
@@ -70,6 +68,5 @@ int	i_mousedown(int key, int x, int y, void *param)
 	}
 	if (key == 4 || key == 5)
 		draw_update(data, set_zoom, (void *)&key);
-	printf("mousedown%d\n", key);
 	return (0);
 }

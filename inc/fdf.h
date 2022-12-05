@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/29 15:23:37 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 15:06:19 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "../libft/libft.h"
 
 # define S_WIDTH 1920
+# define S_HEIGHT 1080
+# define S_HEIGHT 1080
 # define S_HEIGHT 1080
 
 enum {
@@ -55,9 +57,11 @@ typedef struct s_data
 	t_int2	view_pos;
 	t_int2	view_rot;
 	float	zoom;
-	t_int2	rangeheight;
+	float	amp;
+	t_int2	height;
 	int		**field;
 	t_int2	field_size;
+	t_int2	gradient;
 
 	void	*img;
 	char	*addr;
@@ -70,8 +74,9 @@ typedef struct s_data
 int		set_field_from_file(t_data *data, const char *path);
 
 /* DRAWS */
+int		render(void *param);
 int		drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient);
-int		drawarr(t_data *data, t_int2 gradient);
+int		drawiso(t_data *data, t_int2 gradient);
 
 /* INPUTS */
 int		i_winclose(void);
@@ -84,5 +89,8 @@ int		i_mousemove(int x, int y, void *param);
 int		draw_update(t_data *data, void f(t_data *, void *), void *param);
 void	set_movement(t_data *data, void *param);
 void	set_zoom(t_data *data, void *param);
+
+/* TWEEN */
+int		tween_color(t_int2 gradient, float x);
 
 #endif

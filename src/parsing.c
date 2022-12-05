@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/11/29 14:50:32 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/05 15:18:18 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ int	set_field_from_file(t_data *data, const char *path)
 		data->field[ind.x] = ft_calloc(data->field_size.y, sizeof(int));
 		ind.x++;
 	}
-	printf("x: %d, y: %d\n", data->field_size.x, data->field_size.y); /* DEBUG */
+	// printf("x: %d, y: %d\n", data->field_size.x, data->field_size.y); /* DEBUG */
 	close(fd);
 
 	fd = open(path, O_RDONLY);
 	line = get_next_line(fd);
 	ind.x = 0;
-	data->rangeheight.x = 0;
-	data->rangeheight.y = 0;
+	data->height.x = 0;
+	data->height.y = 0;
 	while (line)
 	{
 		ind.y = 0;
@@ -67,10 +67,10 @@ int	set_field_from_file(t_data *data, const char *path)
 		while (linearr[ind.y])
 		{
 			data->field[ind.x][ind.y] = ft_atoi(linearr[ind.y]);
-			if (data->field[ind.x][ind.y] < data->rangeheight.x)
-				data->rangeheight.x = data->field[ind.x][ind.y];
-			if (data->field[ind.x][ind.y] > data->rangeheight.y)
-				data->rangeheight.y = data->field[ind.x][ind.y];
+			if (data->field[ind.x][ind.y] < data->height.x)
+				data->height.x = data->field[ind.x][ind.y];
+			if (data->field[ind.x][ind.y] > data->height.y)
+				data->height.y = data->field[ind.x][ind.y];
 			ind.y++;
 		}
 		ind.x++;
