@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/12/05 15:52:52 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/12/13 12:52:28 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,18 @@ SRC			=	src/fdf.c \
 				src/input.c \
 				src/draw_basics.c \
 				src/draw_iso.c \
-				src/tween.c \
-				src/parsing.c \
-				src/update.c \
-				src/utils.c
+				src/alloc.c \
+				src/parsing.c
+SRC_BONUS	=	src_bonus/fdf.c \
+				src_bonus/input.c \
+				src_bonus/draw_basics.c \
+				src_bonus/draw_iso.c \
+				src_bonus/tween.c \
+				src_bonus/parsing.c \
+				src_bonus/update.c \
+				src_bonus/utils.c
 OBJ			= $(SRC:.c=.o)
+OBJ_BONUS	= $(SRC_BONUS:.c=.o)
 
 #####	Makefile  objs		###################################################
 WHITE		:= \033[0m
@@ -54,10 +61,13 @@ $(LIBFT):
 	@ $(MAKE) -C libft/
 	@ echo "$(CYAN)$(LIBFT) $(GREEN)created$(WHITE) ✔️"
 
-bonus: all
+bonus: $(LIBFT) $(OBJ_BONUS)
+	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}$(NAME) ${WHITE}..."
+	@ $(CC) -o $(NAME) $(OBJ_BONUS) $(LIBFT) -lmlx -framework OpenGL -framework AppKit
+	@ echo "$(CYAN)$(NAME) $(GREEN)created$(WHITE) ✔️"
 
 clean:
-	@ ${RM} $(OBJ)
+	@ ${RM} $(OBJ) $(OBJ_BONUS)
 	@ $(MAKE) clean -C libft/
 	@ echo "$(RED)Deleting $(CYAN)$(NAME) $(WHITE)and $(CYAN)$(LIBFT) $(WHITE)objs ✔️"
 

@@ -6,51 +6,63 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 16:44:57 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/13 15:04:45 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
 
-static void	init_vars(t_data *data, t_int2 *gradient)
+static void	init_vars(t_data *data)
 {
-	data->is_clicked = 0;
-	data->zoom = 16;
-	data->amp = 1;
-	set_int2(gradient, 0xFFFFFF, 0xFF0000);
-	set_int2(&data->view_pos, 0, 0);
+	t_float2	draw_size;
+
+	draw_size.x = (float)(S_WIDTH - 64)
+		/ (float)(data->field_size.x + data->field_size.y);
+	draw_size.y = (float)(S_HEIGHT - 64)
+	/ (float)((data->field_size.x + data->field_size.y
+	+ data->height.y - data->height.x) / 2);
+	if (draw_size.x < draw_size.y)
+		data->tile_size = draw_size.x;
+	else
+		data->tile_size = draw_size.y;
+	draw_size.x = (data->field_size.x + data->field_size.y - 2)
+		* data->tile_size;
+	data->view_pos.x = S_WIDTH / 2 - draw_size.x / 2;
+	draw_size.y = (data->field_size.x - 1) * data->tile_size / 2
+		- (data->field_size.y - 1) * data->tile_size / 2;
+	data->view_pos.y = S_HEIGHT / 2 - draw_size.y / 2;
 }
 
 static void	init_mlx(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
+	if (!data->mlx_ptr)
+		exit (-1);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, S_WIDTH, S_HEIGHT, "FdF");
+	if (!data->win_ptr)
+		exit (-1);
 	data->img = mlx_new_image(data->mlx_ptr, S_WIDTH, S_HEIGHT);
+	if (!data->img)
+		exit (-1);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
-								&data->line_length, &data->endian);
-}
-
-static void	init_hooks(t_data *data)
-{
-	mlx_hook(data->win_ptr, ON_KEYDOWN, 0, i_keydown, (void *)0);
-	mlx_hook(data->win_ptr, ON_DESTROY, 0, i_winclose, (void *)0);
-	mlx_hook(data->win_ptr, ON_MOUSEDOWN, 0, i_mousedown, (void *)data);
-	mlx_hook(data->win_ptr, ON_MOUSEUP, 0, i_mouseup, (void *)data);
-	mlx_hook(data->win_ptr, ON_MOUSEMOVE, 0, i_mousemove, (void *)data);
+			&data->line_length, &data->endian);
+	if (!data->addr)
+		exit (-1);
 }
 
 int	main(int argc, char const *argv[])
 {
 	t_data		data;
-	t_int2		gradient;
 
 	if (argc != 2)
 		return (-1);
-	init_vars(&data, &gradient);
-	set_field_from_file(&data, argv[1]);
+	alloc_field(&data, argv[1]);
 	init_mlx(&data);
-	drawiso(&data, gradient);
-	init_hooks(&data);
+	set_field_from_file(&data, argv[1]);
+	init_vars(&data);
+	drawiso(&data);
+	mlx_hook(data.win_ptr, ON_KEYDOWN, 0, i_keydown, (void *)&data);
+	mlx_hook(data.win_ptr, ON_DESTROY, 0, i_winclose, (void *)&data);
 	mlx_loop(data.mlx_ptr);
 	return (0);
 }
