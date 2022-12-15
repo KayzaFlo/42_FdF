@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:01:35 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/13 14:24:46 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/15 16:21:11 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	put_pix_to_img(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	drawline(t_float2 a, t_float2 b, t_data *data)
+void	drawline(t_int2 a, t_int2 b, t_data *data)
 {
 	t_float2	dir;
+	t_float2	pix;
 	float		step;
 	float		i;
 
@@ -40,15 +41,15 @@ void	drawline(t_float2 a, t_float2 b, t_data *data)
 		step = fabs(dir.x);
 	else
 		step = fabs(dir.y);
-	dir.x /= step;
-	dir.y /= step;
 	i = 1;
-	while (i <= step)
+	while (++i <= step)
 	{
-		if (a.x > 0 && a.x < S_WIDTH && a.y > 0 && a.y < S_HEIGHT)
-			put_pix_to_img(data, (int)a.x % S_WIDTH, (int)a.y % S_HEIGHT, 0x00FF00);
-		a.x += dir.x;
-		a.y += dir.y;
-		i += 1;
+		pix.x = a.x + (dir.x / step) * i;
+		pix.y = a.y + (dir.y / step) * i;
+		if (pix.x <= MARGIN || pix.x >= S_WIDTH - MARGIN)
+			continue ;
+		if (pix.y <= MARGIN || pix.y >= S_HEIGHT - MARGIN)
+			continue ;
+		put_pix_to_img(data, pix.x, pix.y, 0x00FF00);
 	}
 }

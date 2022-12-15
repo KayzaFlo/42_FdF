@@ -4,6 +4,7 @@
 *.out
 *.o
 *.a
-fdf*
+fdf
 *.txt
 main*.c
+test*

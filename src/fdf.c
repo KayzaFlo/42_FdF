@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/13 15:04:45 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/15 16:30:34 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,18 @@ static void	init_vars(t_data *data)
 {
 	t_float2	draw_size;
 
-	draw_size.x = (float)(S_WIDTH - 64)
+	data->angle = M_PI / -8.0f;
+	draw_size.x = (float)(S_WIDTH - MARGIN)
 		/ (float)(data->field_size.x + data->field_size.y);
-	draw_size.y = (float)(S_HEIGHT - 64)
-	/ (float)((data->field_size.x + data->field_size.y
-	+ data->height.y - data->height.x) / 2);
+	draw_size.y = (float)(S_HEIGHT - MARGIN)
+		/ (float)((data->field_size.x + data->field_size.y
+				+ data->height.y - data->height.x) / 2);
 	if (draw_size.x < draw_size.y)
 		data->tile_size = draw_size.x;
 	else
 		data->tile_size = draw_size.y;
-	draw_size.x = (data->field_size.x + data->field_size.y - 2)
-		* data->tile_size;
-	data->view_pos.x = S_WIDTH / 2 - draw_size.x / 2;
-	draw_size.y = (data->field_size.x - 1) * data->tile_size / 2
-		- (data->field_size.y - 1) * data->tile_size / 2;
-	data->view_pos.y = S_HEIGHT / 2 - draw_size.y / 2;
+	data->view_pos.x = S_WIDTH / 2;
+	data->view_pos.y = S_HEIGHT / 2;
 }
 
 static void	init_mlx(t_data *data)
@@ -54,7 +51,7 @@ int	main(int argc, char const *argv[])
 {
 	t_data		data;
 
-	if (argc != 2)
+	if (argc != 2 && argv)
 		return (-1);
 	alloc_field(&data, argv[1]);
 	init_mlx(&data);

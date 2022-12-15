@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/13 15:07:16 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/15 15:18:14 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,28 @@
 static void	populate_field_row(t_data *data, int i, char **line)
 {
 	int		j;
-	char	**linearr;
+	char	**line_split;
 
-	j = 0;
-	linearr = ft_split(*line, ' ');
+	j = -1;
+	line_split = ft_split(*line, ' ');
 	free(*line);
-	if (!linearr)
+	if (!line_split)
 		free_and_quit(data, -1);
 	data->height.x = 0;
 	data->height.y = 0;
-	while (j < data->field_size.y)
+	while (++j < data->field_size.y)
 	{
-		data->field[i][j] = ft_atoi(linearr[j]);
+		data->field[i][j] = ft_atoi(line_split[j]);
 		if (data->field[i][j] < data->height.x)
 			data->height.x = data->field[i][j];
 		if (data->field[i][j] > data->height.y)
 			data->height.y = data->field[i][j];
-		j++;
 	}
+	while (line_split[j])
+		j++;
 	while (j > 0)
-		free(linearr[--j]);
-	free(linearr);
+		free(line_split[--j]);
+	free(line_split);
 }
 
 void	set_field_from_file(t_data *data, const char *path)

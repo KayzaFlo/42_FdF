@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/13 15:07:22 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/15 15:47:00 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,14 @@ static int	get_wc(const char *str, char sep)
 	while (str[i])
 	{
 		if (str[i] != sep)
-			if (str[i + 1] == sep)
+			if (str[i + 1] == sep || str[i + 1] == '\0')
 				count++;
 		i++;
 	}
 	return (count);
 }
 
-static void	alloc_field_rows(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->field_size.x)
-	{
-		data->field[i] = ft_calloc(data->field_size.y, sizeof(int));
-		if (!data->field[i])
-			free_and_quit(data, -1);
-		i++;
-	}
-}
-
-void	alloc_field(t_data *data, const char *path)
+static void	set_field_size(t_data *data, const char *path)
 {
 	int		fd;
 	char	*line;
@@ -66,9 +52,23 @@ void	alloc_field(t_data *data, const char *path)
 		line = get_next_line(fd);
 	}
 	free(line);
+	close(fd);
+}
+
+void	alloc_field(t_data *data, const char *path)
+{
+	int	i;
+
+	set_field_size(data, path);
 	data->field = ft_calloc(data->field_size.x, sizeof(int *));
 	if (!data->field)
 		exit(-1);
-	alloc_field_rows(data);
-	close(fd);
+	i = 0;
+	while (i < data->field_size.x)
+	{
+		data->field[i] = ft_calloc(data->field_size.y, sizeof(int));
+		if (!data->field[i])
+			free_and_quit(data, -1);
+		i++;
+	}
 }
