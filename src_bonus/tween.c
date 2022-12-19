@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:02:33 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 15:02:43 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 12:47:21 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
+#include "../inc_bonus/fdf.h"
 
 int	tween_color(t_int2 gradient, float x)
 {

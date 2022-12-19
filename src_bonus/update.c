@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/12 17:34:04 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 14:06:53 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
+#include "../inc_bonus/fdf.h"
 
 int	draw_update(t_data *data, void func(t_data *, void *), void *param)
 {
@@ -31,17 +31,12 @@ void	paintcanvas(t_data *data, void *param)
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
-	while (i < S_WIDTH)
+	i = -1;
+	while (++i < S_WIDTH)
 	{
-		j = 0;
-		while (j < S_HEIGHT)
-		{
-			putpiximg(data, i, j, (int)param);
-			j++;
-		}
-		i++;
+		j = -1;
+		while (++j < S_HEIGHT)
+			put_pix_to_img(data, i, j, (int)param);
 	}
 }
 
@@ -93,5 +88,6 @@ void	free_and_quit(t_data *data, int exitcode)
 		i++;
 	}
 	free(data->field);
+	printf("Free & Exit (%d)\n", exitcode);
 	exit (exitcode);
 }

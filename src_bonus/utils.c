@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:51:25 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/05 16:14:49 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 12:47:14 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
+#include "../inc_bonus/fdf.h"
 
 void	set_int2(t_int2 *int2, int a, int b)
 {

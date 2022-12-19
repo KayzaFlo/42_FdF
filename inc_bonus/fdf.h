@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/12 17:34:17 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 14:15:05 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 # include <mlx.h>
 # include <math.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
 
 # define S_WIDTH 1920
 # define S_HEIGHT 1080
+# define MARGIN 32
 
 enum e_events {
 	ON_KEYDOWN = 2,
@@ -58,34 +57,37 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	void	*img;
+	char	*addr;
+
 	int		is_clicked;
 	t_int2	last_click_pos;
 	t_int2	view_pos;
 	t_int2	view_rot;
 	float	zoom;
+	float	tile_size;
 	float	amp;
 	t_int2	height;
 	int		**field;
 	t_int2	field_size;
 	t_int2	gradient;
-	char	*filename;
+	char	*filepath;
+	float	angle;
 
-	void	*img;
-	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
 }	t_data;
 
 /* PARSING */
-int		get_filesize(t_data *data, const char *path);
+void	alloc_field(t_data *data, const char *path);
 int		set_field_from_file(t_data *data, const char *path);
 
 /* DRAWS */
-void	putpiximg(t_data *data, int x, int y, int color);
-int		render(void *param);
-int		drawline(t_float2 a, t_float2 b, t_data *data, t_int2 gradient);
-int		drawiso(t_data *data, t_int2 gradient);
+void	put_pix_to_img(t_data *data, int x, int y, int color);
+void	render(void *param);
+void	drawline(t_int2 a, t_int2 b, t_data *data, t_int2 gradient);
+void	drawiso(t_data *data, t_int2 gradient);
 
 /* INPUTS */
 int		i_winclose(void *param);

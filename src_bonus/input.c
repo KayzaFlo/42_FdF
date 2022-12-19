@@ -6,11 +6,11 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:30:30 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/12 17:40:56 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 13:02:40 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
+#include "../inc_bonus/fdf.h"
 
 int	i_winopen(void *param)
 {
@@ -23,7 +23,7 @@ int	i_winopen(void *param)
 	if (!loaded)
 	{
 		loaded = 1;
-		set_field_from_file(data, data->filename);
+		set_field_from_file(data, data->filepath);
 		draw_update(data, NULL, NULL);
 	}
 	return (0);

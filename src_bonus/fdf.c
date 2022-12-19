@@ -6,31 +6,38 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/12 17:39:46 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 14:04:55 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
+#include "../inc_bonus/fdf.h"
 
 static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
 {
 	t_float2	draw_size;
 
 	data->is_clicked = 0;
-	data->zoom = 16;
-	data->zoom = S_WIDTH / (data->field_size.x + data->field_size.y);
+	data->zoom = 16; //
+	data->zoom = S_WIDTH / (data->field_size.x + data->field_size.y); //
 	data->height.x = 0;
 	data->height.y = 0;
 	data->amp = 1;
-	data->filename = (char *)str;
-	str = NULL;
+	data->filepath = (char *)str;
 	set_int2(gradient, 0xFFFFFF, 0xFF0000);
 	set_int2(&data->view_pos, 0, 0);
-	draw_size.x = (data->field_size.x + data->field_size.y - 2) * data->zoom;
-	data->view_pos.x = S_WIDTH / 2 - draw_size.x / 2;
-	draw_size.y = (data->field_size.x - 1) * data->zoom / 2;
-	draw_size.y -= (data->field_size.y - 1) * data->zoom / 2;
-	data->view_pos.y = S_HEIGHT / 2 - draw_size.y / 2;
+
+	data->angle = M_PI / -8.0f;
+	draw_size.x = (float)(S_WIDTH - MARGIN)
+		/ (float)(data->field_size.x + data->field_size.y);
+	draw_size.y = (float)(S_HEIGHT - MARGIN)
+		/ (float)((data->field_size.x + data->field_size.y
+				+ data->height.y - data->height.x) / 2);
+	if (draw_size.x < draw_size.y)
+		data->tile_size = draw_size.x;
+	else
+		data->tile_size = draw_size.y;
+	data->view_pos.x = S_WIDTH / 2;
+	data->view_pos.y = S_HEIGHT / 2;
 }
 
 static void	init_mlx(t_data *data)
@@ -53,12 +60,14 @@ static void	init_mlx(t_data *data)
 int	goforloop(void *param)
 {
 	t_data	*data;
+	static int	state = 0;
 
 	if (!param)
 		return (-1);
 	data = (t_data *)param;
-	putpiximg(data, 16, 16, rand());
-	set_field_from_file(data, data->filename);
+	put_pix_to_img(data, 16, 16, rand()); //
+	if (state == 0)
+		state = set_field_from_file(data, data->filepath);
 	return (0);
 }
 
@@ -80,9 +89,9 @@ int	main(int argc, char const *argv[])
 
 	if (argc != 2)
 		return (-1);
-	get_filesize(&data, argv[1]);
-	init_vars(&data, &gradient, argv[1]);
+	alloc_field(&data, argv[1]);
 	init_mlx(&data);
+	init_vars(&data, &gradient, argv[1]);
 	init_hooks(&data);
 	mlx_loop(data.mlx_ptr);
 	return (0);

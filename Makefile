@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/12/15 14:47:00 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/12/19 13:04:58 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC_BONUS	=	src_bonus/fdf.c \
 				src_bonus/draw_basics.c \
 				src_bonus/draw_iso.c \
 				src_bonus/tween.c \
+				src_bonus/alloc.c \
 				src_bonus/parsing.c \
 				src_bonus/update.c \
 				src_bonus/utils.c
