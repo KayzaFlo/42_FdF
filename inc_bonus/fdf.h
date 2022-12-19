@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 14:15:05 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 16:42:29 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_data
 	t_int2	last_click_pos;
 	t_int2	view_pos;
 	t_int2	view_rot;
-	float	zoom;
+	float	zoomeux;
 	float	tile_size;
 	float	amp;
 	t_int2	height;
@@ -81,7 +81,7 @@ typedef struct s_data
 
 /* PARSING */
 void	alloc_field(t_data *data, const char *path);
-int		set_field_from_file(t_data *data, const char *path);
+int		loop_parsedraw(void *param);
 
 /* DRAWS */
 void	put_pix_to_img(t_data *data, int x, int y, int color);
@@ -96,7 +96,6 @@ int		i_keydown(int key, void *param);
 int		i_mousedown(int key, int x, int y, void *param);
 int		i_mouseup(int key, int x, int y, void *param);
 int		i_mousemove(int x, int y, void *param);
-int		drawloop(void *param);
 
 /* UPDATES */
 int		draw_update(t_data *data, void f(t_data *, void *), void *param);
@@ -104,7 +103,6 @@ void	set_movement(t_data *data, void *param);
 void	reset_pos(t_data *data, void *param);
 void	set_zoom(t_data *data, void *param);
 void	free_and_quit(t_data *data, int exitcode);
-void	paintcanvas(t_data *data, void *param);
 
 /* TWEEN */
 int		tween_color(t_int2 gradient, float x);

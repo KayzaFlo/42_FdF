@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:01:35 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 14:28:09 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 15:48:09 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	drawline(t_int2 a, t_int2 b, t_data *data, t_int2 gradient)
 		step = fabs(dir.x);
 	else
 		step = fabs(dir.y);
-	i = 1;
+	i = 0;
 	while (++i <= step)
 	{
 		pix.x = a.x + (dir.x / step) * i;

@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 14:06:53 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 16:39:11 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,8 @@ int	draw_update(t_data *data, void func(t_data *, void *), void *param)
 		func(data, param);
 	set_int2(&gradient, 0xFFFFFF, 0xFF0000);
 	drawiso(data, gradient);
+	render(data);
 	return (0);
-}
-
-void	paintcanvas(t_data *data, void *param)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < S_WIDTH)
-	{
-		j = -1;
-		while (++j < S_HEIGHT)
-			put_pix_to_img(data, i, j, (int)param);
-	}
 }
 
 void	set_movement(t_data *data, void *param)
@@ -53,23 +40,18 @@ void	set_movement(t_data *data, void *param)
 
 void	reset_pos(t_data *data, void *param)
 {
-	t_float2	draw_size;
-
-	draw_size.x = (data->field_size.x + data->field_size.y - 2) * data->zoom;
-	data->view_pos.x = S_WIDTH / 2 - draw_size.x / 2 + (int)param;
-	draw_size.y = (data->field_size.x - 1) * data->zoom / 2;
-	draw_size.y -= (data->field_size.y - 1) * data->zoom / 2;
-	data->view_pos.y = S_HEIGHT / 2 - draw_size.y / 2 + (int)param;
+	data->view_pos.x = S_WIDTH / 2 + (int)param;
+	data->view_pos.y = S_HEIGHT / 2 + (int)param;
 }
 
 void	set_zoom(t_data *data, void *param)
 {
 	float	mult;
 
-	mult = 1 - (data->zoom - (*(int *)param * 2 - 9)) / data->zoom;
-	data->zoom -= *(int *)param * 2 - 9;
-	if (data->zoom < 1)
-		data->zoom = 1;
+	mult = 1 - (data->tile_size - (*(int *)param * 2 - 9)) / data->tile_size;
+	data->tile_size -= *(int *)param * 2 - 9;
+	if (data->tile_size < 1)
+		data->tile_size = 1;
 	else
 	{
 		data->view_pos.x -= (data->view_pos.x - data->last_click_pos.x) * mult;

@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 14:17:21 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 16:38:22 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ void	drawiso(t_data *data, t_int2 gradient)
 	t_int2	to;
 	t_int2	ind;
 
- 	set_int2(&ind, 0, -1);
- 	set_int2(&data->gradient, gradient.x, gradient.y);
+	set_int2(&ind, 0, -1);
+	set_int2(&data->gradient, gradient.x, gradient.y);
 	while (ind.x < data->field_size.x)
 	{
 		if (++ind.y >= data->field_size.y)
@@ -136,25 +136,4 @@ void	drawiso(t_data *data, t_int2 gradient)
 			continue ;
 		draw_lineto(&to, data, ind, from);
 	}
-	render((void *)data);
 }
-
-// int	drawiso(t_data *data, t_int2 gradient)
-// {
-// 	t_line		line;
-// 	t_int2		i;
-
-// 	set_int2(&i, 0, 0);
-// 	set_int2(&data->gradient, gradient.x, gradient.y);
-// 	while (i.x < data->field_size.x)
-// 	{
-// 		set_line(&line, data, i);
-// 		if (++i.y >= data->field_size.y)
-// 		{
-// 			i.y = 0;
-// 			i.x++;
-// 		}
-// 	}
-// 	render((void *)data);
-// 	return (0);
-// }

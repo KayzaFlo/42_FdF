@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 14:04:55 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/19 16:35:34 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@ static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
 	t_float2	draw_size;
 
 	data->is_clicked = 0;
-	data->zoom = 16; //
-	data->zoom = S_WIDTH / (data->field_size.x + data->field_size.y); //
 	data->height.x = 0;
 	data->height.y = 0;
 	data->amp = 1;
 	data->filepath = (char *)str;
 	set_int2(gradient, 0xFFFFFF, 0xFF0000);
-	set_int2(&data->view_pos, 0, 0);
-
-	data->angle = M_PI / -8.0f;
+	set_int2(&data->gradient, 0xFFFFFF, 0xFF0000);
+	set_int2(&data->view_pos, S_WIDTH / 2, S_HEIGHT / 2);
+	data->angle = -22.5f * (M_PI / 180);
 	draw_size.x = (float)(S_WIDTH - MARGIN)
 		/ (float)(data->field_size.x + data->field_size.y);
 	draw_size.y = (float)(S_HEIGHT - MARGIN)
@@ -36,8 +34,6 @@ static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
 		data->tile_size = draw_size.x;
 	else
 		data->tile_size = draw_size.y;
-	data->view_pos.x = S_WIDTH / 2;
-	data->view_pos.y = S_HEIGHT / 2;
 }
 
 static void	init_mlx(t_data *data)
@@ -57,20 +53,6 @@ static void	init_mlx(t_data *data)
 		exit (-1);
 }
 
-int	goforloop(void *param)
-{
-	t_data	*data;
-	static int	state = 0;
-
-	if (!param)
-		return (-1);
-	data = (t_data *)param;
-	put_pix_to_img(data, 16, 16, rand()); //
-	if (state == 0)
-		state = set_field_from_file(data, data->filepath);
-	return (0);
-}
-
 static void	init_hooks(t_data *data)
 {
 	mlx_hook(data->win_ptr, ON_KEYDOWN, 0, i_keydown, (void *)data);
@@ -79,7 +61,7 @@ static void	init_hooks(t_data *data)
 	mlx_hook(data->win_ptr, ON_MOUSEDOWN, 0, i_mousedown, (void *)data);
 	mlx_hook(data->win_ptr, ON_MOUSEUP, 0, i_mouseup, (void *)data);
 	mlx_hook(data->win_ptr, ON_MOUSEMOVE, 0, i_mousemove, (void *)data);
-	mlx_loop_hook(data->mlx_ptr, goforloop, data);
+	mlx_loop_hook(data->mlx_ptr, loop_parsedraw, data);
 }
 
 int	main(int argc, char const *argv[])
