@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 16:35:34 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:26:00 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
 	set_int2(gradient, 0xFFFFFF, 0xFF0000);
 	set_int2(&data->gradient, 0xFFFFFF, 0xFF0000);
 	set_int2(&data->view_pos, S_WIDTH / 2, S_HEIGHT / 2);
-	data->angle = -22.5f * (M_PI / 180);
+	data->view_dir = 0;
+	rotate(data, (void *)&data->height);
 	draw_size.x = (float)(S_WIDTH - MARGIN)
 		/ (float)(data->field_size.x + data->field_size.y);
 	draw_size.y = (float)(S_HEIGHT - MARGIN)
@@ -56,7 +57,6 @@ static void	init_mlx(t_data *data)
 static void	init_hooks(t_data *data)
 {
 	mlx_hook(data->win_ptr, ON_KEYDOWN, 0, i_keydown, (void *)data);
-	// mlx_hook(data->win_ptr, ON_EXPOSE, 0, i_winopen, (void *)data);
 	mlx_hook(data->win_ptr, ON_DESTROY, 0, i_winclose, (void *)data);
 	mlx_hook(data->win_ptr, ON_MOUSEDOWN, 0, i_mousedown, (void *)data);
 	mlx_hook(data->win_ptr, ON_MOUSEUP, 0, i_mouseup, (void *)data);

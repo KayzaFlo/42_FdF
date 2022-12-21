@@ -6,28 +6,13 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 16:39:11 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:51:34 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc_bonus/fdf.h"
 
-int	draw_update(t_data *data, void func(t_data *, void *), void *param)
-{
-	t_int2	black;
-	t_int2	gradient;
-
-	set_int2(&black, 0, 0);
-	drawiso(data, black);
-	if (func)
-		func(data, param);
-	set_int2(&gradient, 0xFFFFFF, 0xFF0000);
-	drawiso(data, gradient);
-	render(data);
-	return (0);
-}
-
-void	set_movement(t_data *data, void *param)
+void	translate(t_data *data, void *param)
 {
 	t_int2	*mouse;
 
@@ -38,13 +23,31 @@ void	set_movement(t_data *data, void *param)
 	data->last_click_pos.y = mouse->y;
 }
 
-void	reset_pos(t_data *data, void *param)
+void	rotate(t_data *data, void *param)
+{
+	t_int2	*mouse;
+	float	theta;
+
+	mouse = (t_int2 *)param;
+	data->view_dir -= data->last_click_pos.x - mouse->x;
+	data->view_dir = (int)(data->view_dir + 360) % 360;
+	theta = (int)data->view_dir % 180 - 90;
+	if (theta > 0)
+		theta *= -1;
+	theta += 135;
+	data->iso_angle.x = (data->view_dir + theta / 2) * M_PI / 180;
+	data->iso_angle.y = (data->view_dir - theta / 2) * M_PI / 180;
+	data->last_click_pos.x = mouse->x;
+	data->last_click_pos.y = mouse->y;
+}
+
+void	reset(t_data *data, void *param)
 {
 	data->view_pos.x = S_WIDTH / 2 + (int)param;
 	data->view_pos.y = S_HEIGHT / 2 + (int)param;
 }
 
-void	set_zoom(t_data *data, void *param)
+void	zoom(t_data *data, void *param)
 {
 	float	mult;
 

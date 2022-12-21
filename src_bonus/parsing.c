@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 16:36:03 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/20 12:52:57 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,19 @@ static void	set_field_from_file(t_data *data, void *param)
 int	loop_parsedraw(void *param)
 {
 	t_data		*data;
-	static int	coldrawn = 0;
+	static int	coldrawn = -1;
 	int			draw_freq;
 
 	draw_freq = 20;
 	if (!param)
 		return (-1);
 	data = (t_data *)param;
-	if (coldrawn < data->field_size.x)
+	if (coldrawn == -1)
+	{
+		draw_update(data, 0, (void *) 0);
+		coldrawn = 0;
+	}
+	else if (coldrawn < data->field_size.x)
 	{
 		if (data->field_size.x - coldrawn < draw_freq)
 			draw_freq = data->field_size.x - coldrawn;

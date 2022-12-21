@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 16:42:29 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:26:10 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,28 @@ typedef struct line
 
 typedef struct s_data
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img;
-	char	*addr;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	void		*img;
+	char		*addr;
 
-	int		is_clicked;
-	t_int2	last_click_pos;
-	t_int2	view_pos;
-	t_int2	view_rot;
-	float	zoomeux;
-	float	tile_size;
-	float	amp;
-	t_int2	height;
-	int		**field;
-	t_int2	field_size;
-	t_int2	gradient;
-	char	*filepath;
-	float	angle;
+	int			is_clicked;
+	t_int2		last_click_pos;
+	t_int2		view_pos;
+	float		view_dir;
+	t_float2	iso_angle;
+	float		tile_size;
+	float		amp;
+	t_int2		height;
+	int			**field;
+	t_int2		field_size;
+	t_int2		gradient;
+	char		*filepath;
+	float		anglez;
 
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 }	t_data;
 
 /* PARSING */
@@ -91,7 +91,6 @@ void	drawiso(t_data *data, t_int2 gradient);
 
 /* INPUTS */
 int		i_winclose(void *param);
-int		i_winopen(void *param);
 int		i_keydown(int key, void *param);
 int		i_mousedown(int key, int x, int y, void *param);
 int		i_mouseup(int key, int x, int y, void *param);
@@ -99,9 +98,10 @@ int		i_mousemove(int x, int y, void *param);
 
 /* UPDATES */
 int		draw_update(t_data *data, void f(t_data *, void *), void *param);
-void	set_movement(t_data *data, void *param);
-void	reset_pos(t_data *data, void *param);
-void	set_zoom(t_data *data, void *param);
+void	translate(t_data *data, void *param);
+void	rotate(t_data *data, void *param);
+void	reset(t_data *data, void *param);
+void	zoom(t_data *data, void *param);
 void	free_and_quit(t_data *data, int exitcode);
 
 /* TWEEN */

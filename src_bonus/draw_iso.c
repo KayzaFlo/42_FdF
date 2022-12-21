@@ -6,116 +6,58 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 16:38:22 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:55:07 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc_bonus/fdf.h"
 
-// static void	set_drawfrom(t_float2 *drawfrom, t_data *data, t_int2 *i)
-// {
-// 	drawfrom->x = i->x + i->y;
-// 	drawfrom->x *= data->zoom;
-// 	drawfrom->x += data->view_pos.x;
-// 	drawfrom->y = i->x - i->y - data->field[i->x][i->y] * data->amp;
-// 	drawfrom->y *= data->zoom / 2;
-// 	drawfrom->y += data->view_pos.y;
-// }
-
-// static void	set_drawto(t_float2 *drawto, t_data *data, t_int2 i, char next)
-// {
-// 	if (next == 'x')
-// 		i.x++;
-// 	if (next == 'y')
-// 		i.y++;
-// 	drawto->y = i.x - i.y - data->field[i.x][i.y] * data->amp;
-// 	drawto->y *= data->zoom / 2;
-// 	drawto->y += data->view_pos.y;
-// }
-
-static void	set_gradient(t_int2 *gradient, t_data *data, t_int2 i, char next)
+static t_int2	get_gradient(t_data *data, int x, int y)
 {
-	float		height;
-	float		maxheight;
+	t_int2	gradient;
+	float	height;
+	float	maxheight;
 
 	maxheight = data->height.y - data->height.x;
 	if (maxheight <= 0)
 		maxheight = 1;
-	if (next == 'x')
-		i.x++;
-	if (next == 'y')
-		i.y++;
-	height = data->field[i.x][i.y] - data->height.x;
-	gradient->x = tween_color(data->gradient, height / maxheight);
-	height = data->field[i.x][i.y] - data->height.x;
-	gradient->y = tween_color(data->gradient, height / maxheight);
+	height = data->field[x][y] - data->height.x;
+	gradient.x = tween_color(data->gradient, height / maxheight);
+	height = data->field[x][y] - data->height.x;
+	gradient.y = tween_color(data->gradient, height / maxheight);
+	return (gradient);
 }
 
-// static void	set_line(t_line *line, t_data *data, t_int2 i)
-// {
-// 	set_drawfrom(&line->from, data, &i);
-// 	line->to.x = line->from.x + data->zoom;
-// 	if (i.x + 1 < data->field_size.x)
-// 	{
-// 		set_drawto(&line->to, data, i, 'x');
-// 		set_gradient(&line->gradient, data, i, 'x');
-// 		drawline(line->from, line->to, data, line->gradient);
-// 	}
-// 	if (i.y + 1 < data->field_size.y)
-// 	{
-// 		set_drawto(&line->to, data, i, 'y');
-// 		set_gradient(&line->gradient, data, i, 'y');
-// 		drawline(line->from, line->to, data, line->gradient);
-// 	}
-// }
-
-static void	set_linefrom(t_int2 *drawfrom, t_data *data, t_int2 i)
+static t_int2	field_to_screen(t_data *data, int x, int y)
 {
-	float	angle;
-	int		nextheight;
+	t_int2	screen_point;
+	int		height;
+	float	shrinker;
 
-	nextheight = data->field[i.x][i.y] - data->field[0][0];
-	angle = data->angle;
-	i.x -= data->field_size.x / 2;
-	i.y -= data->field_size.y / 2;
-	drawfrom->x = data->view_pos.x + data->tile_size
-		* (i.x * cos(angle + M_PI / 4) + i.y * cos(angle));
-	drawfrom->y = data->view_pos.y + data->tile_size
-		* (-i.x * sin(angle)
-			+ i.y * sin(angle)
-			+ nextheight * sin(angle));
-}
-
-static void	draw_lineto(t_int2 *drawto, t_data *data, t_int2 i, t_int2 from)
-{
-	t_int2	grad;
-
-	if (i.x + 1 < data->field_size.x)
-	{
-		drawto->x = from.x + data->tile_size * cos(data->angle + M_PI / 4);
-		drawto->y = from.y + data->tile_size * sin(data->angle + M_PI / 4)
-			+ data->tile_size
-			* (data->field[i.x][i.y] - data->field[i.x + 1][i.y])
-			* sin(data->angle + M_PI / 4);
-		set_gradient(&grad, data, i, 'x');
-		drawline(from, *drawto, data, grad);
-	}
-	if (i.y + 1 < data->field_size.y)
-	{
-		drawto->x = from.x + data->tile_size * cos(data->angle);
-		drawto->y = from.y + data->tile_size * sin(data->angle)
-			+ data->tile_size
-			* (data->field[i.x][i.y + 1] - data->field[i.x][i.y])
-			* sin(data->angle);
-		set_gradient(&grad, data, i, 'y');
-		drawline(from, *drawto, data, grad);
-	}
+	shrinker = (float)((int)data->view_dir % 180 - 90) / 45;
+	if (shrinker < 0)
+		shrinker *= -1;
+	shrinker -= 1;
+	if (shrinker < 0)
+		shrinker *= -1;
+	shrinker = (shrinker - 1) * -0.5f + 1;
+	height = data->field[x][y];
+	x -= data->field_size.x / 2;
+	y -= data->field_size.y / 2;
+	screen_point.x = data->view_pos.x + data->tile_size
+		* (x * cos(data->iso_angle.x)
+			+ y * cos(data->iso_angle.y)
+			+ height * cos(-90.0f * (M_PI / 180)));
+	screen_point.y = data->view_pos.y + data->tile_size
+		* (x * sin(data->iso_angle.x) / shrinker
+			+ y * sin(data->iso_angle.y) / shrinker
+			+ height * sin(-90.0f * (M_PI / 180)));
+	return (screen_point);
 }
 
 void	drawiso(t_data *data, t_int2 gradient)
 {
 	t_int2	from;
-	t_int2	to;
 	t_int2	ind;
 
 	set_int2(&ind, 0, -1);
@@ -125,15 +67,19 @@ void	drawiso(t_data *data, t_int2 gradient)
 		if (++ind.y >= data->field_size.y)
 		{
 			ind.y = 0;
-			ind.x++;
-			if (ind.x >= data->field_size.x)
+			if (++ind.x >= data->field_size.x)
 				break ;
 		}
-		set_linefrom(&from, data, ind);
-		if (from.x + data->tile_size < MARGIN || from.x > S_WIDTH - MARGIN)
+		from.x = field_to_screen(data, ind.x, ind.y).x;
+		from.y = field_to_screen(data, ind.x, ind.y).y;
+		if (from.x + data->tile_size < MARGIN || from.x > S_WIDTH - MARGIN
+			|| from.y + data->tile_size < MARGIN || from.y > S_HEIGHT - MARGIN)
 			continue ;
-		if (from.y + data->tile_size < MARGIN || from.y > S_HEIGHT - MARGIN)
-			continue ;
-		draw_lineto(&to, data, ind, from);
+		if (ind.x + 1 < data->field_size.x)
+			drawline(from, field_to_screen(data, ind.x + 1, ind.y),
+				data, get_gradient(data, ind.x + 1, ind.y));
+		if (ind.y + 1 < data->field_size.y)
+			drawline(from, field_to_screen(data, ind.x, ind.y + 1),
+				data, get_gradient(data, ind.x, ind.y + 1));
 	}
 }

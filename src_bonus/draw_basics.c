@@ -6,11 +6,28 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:01:35 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 15:48:09 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/20 14:49:08 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc_bonus/fdf.h"
+
+int	draw_update(t_data *data, void func(t_data *, void *), void *param)
+{
+	t_int2	black;
+	t_int2	gradient;
+
+	if (func)
+	{
+		set_int2(&black, 0, 0);
+		drawiso(data, black);
+		func(data, param);
+	}
+	set_int2(&gradient, 0xFFFFFF, 0xFF0000);
+	drawiso(data, gradient);
+	render(data);
+	return (0);
+}
 
 void	render(void *param)
 {

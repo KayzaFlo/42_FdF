@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/12/19 13:04:58 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/12/20 12:50:51 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,6 @@ fclean: clean
 	@ $(MAKE) fclean -C libft/
 	@ echo "$(RED)Deleting $(CYAN)$(NAME) $(WHITE)and $(CYAN)$(LIBFT) $(WHITE)binary ✔️"
 
-re: fclean all
+re: fclean all bonus
 
 .PHONY:		all clean fclean re
