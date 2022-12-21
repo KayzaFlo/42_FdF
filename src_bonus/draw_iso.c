@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 17:55:07 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 18:07:57 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ static t_int2	field_to_screen(t_data *data, int x, int y)
 	screen_point.x = data->view_pos.x + data->tile_size
 		* (x * cos(data->iso_angle.x)
 			+ y * cos(data->iso_angle.y)
-			+ height * cos(-90.0f * (M_PI / 180)));
+			+ height * data->amp * cos(-90.0f * (M_PI / 180)));
 	screen_point.y = data->view_pos.y + data->tile_size
 		* (x * sin(data->iso_angle.x) / shrinker
 			+ y * sin(data->iso_angle.y) / shrinker
-			+ height * sin(-90.0f * (M_PI / 180)));
+			+ height * data->amp * sin(-90.0f * (M_PI / 180)));
 	return (screen_point);
 }
 

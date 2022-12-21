@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 17:26:10 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 18:06:05 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_data
 	t_int2		field_size;
 	t_int2		gradient;
 	char		*filepath;
-	float		anglez;
 
 	int			bits_per_pixel;
 	int			line_length;

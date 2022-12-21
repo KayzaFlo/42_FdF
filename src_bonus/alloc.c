@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/19 13:14:53 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/21 18:15:46 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@ static int	get_wc(const char *str, char sep)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] != sep)
-			if (str[i + 1] == sep || str[i + 1] == '\0')
+		if (str[i] != sep && str[i] != '\n')
+		{
+			if (str[i + 1] == sep)
 				count++;
+			else if (str[i + 1] == '\0')
+				count++;
+			else if (str[i + 1] == '\n')
+				count++;
+		}
 		i++;
 	}
 	return (count);
