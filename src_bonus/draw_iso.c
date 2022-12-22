@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 12:41:56 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 16:12:07 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,31 +60,77 @@ static t_int2	field_to_screen(t_data *data, int x, int y)
 	return (screen_point);
 }
 
-void	drawiso(t_data *data, t_int2 gradient)
+static int	checkorder(t_data *data, t_int2 *ind)
+{
+	if (data->view_dir <= 45 || data->view_dir >= 235)
+		ind->y = data->field_size.y - 1;
+	else
+		ind->y = 0;
+	if (data->view_dir >= 135 && data->view_dir <= 315)
+	{
+		if (--ind->x < 0)
+			return (1);
+	}
+	else
+	{
+		if (++ind->x >= data->field_size.x)
+			return (1);
+	}
+	return (0);
+}
+
+static int	drawcol(t_data *data, t_int2 *ind)
 {
 	t_int2	from;
+
+	if (data->view_dir <= 45 || data->view_dir >= 235)
+	{
+		if (--ind->y < 0)
+			if (checkorder(data, ind) == 1)
+				return (1);
+	}
+	else
+	{
+		if (++ind->y >= data->field_size.y)
+			if (checkorder(data, ind) == 1)
+				return (1);
+	}
+	cpy_int2(&from, field_to_screen(data, ind->x, ind->y));
+	if (from.x + data->tile_size < MARGIN || from.x > S_WIDTH - MARGIN
+		|| from.y + data->tile_size < MARGIN || from.y > S_HEIGHT - MARGIN)
+		return (0);
+	if (ind->x + 1 < data->field_size.x)
+		drawline(from, field_to_screen(data, ind->x + 1, ind->y),
+			data, get_gradient(data, *ind, 'x'));
+	if (ind->y + 1 < data->field_size.y)
+		drawline(from, field_to_screen(data, ind->x, ind->y + 1),
+			data, get_gradient(data, *ind, 'y'));
+	return (0);
+}
+
+void	drawiso(t_data *data, t_int2 gradient)
+{
 	t_int2	ind;
 
-	set_int2(&ind, 0, -1);
+	if (data->view_dir >= 135 && data->view_dir <= 315)
+		ind.x = data->field_size.x - 1;
+	else
+		ind.x = 0;
+	if (data->view_dir <= 45 || data->view_dir >= 235)
+		ind.y = data->field_size.y;
+	else
+		ind.y = -1;
 	set_int2(&data->gradient, gradient.x, gradient.y);
-	while (ind.x < data->field_size.x)
-	{
-		if (++ind.y >= data->field_size.y)
-		{
-			ind.y = 0;
-			if (++ind.x >= data->field_size.x)
+	if (data->view_dir >= 135 && data->view_dir <= 315)
+	{	
+		while (ind.x >= 0)
+			if (drawcol(data, &ind) == 1)
 				break ;
-		}
-		from.x = field_to_screen(data, ind.x, ind.y).x;
-		from.y = field_to_screen(data, ind.x, ind.y).y;
-		if (from.x + data->tile_size < MARGIN || from.x > S_WIDTH - MARGIN
-			|| from.y + data->tile_size < MARGIN || from.y > S_HEIGHT - MARGIN)
-			continue ;
-		if (ind.x + 1 < data->field_size.x)
-			drawline(from, field_to_screen(data, ind.x + 1, ind.y),
-				data, get_gradient(data, ind, 'x'));
-		if (ind.y + 1 < data->field_size.y)
-			drawline(from, field_to_screen(data, ind.x, ind.y + 1),
-				data, get_gradient(data, ind, 'y'));
+	}
+	else
+	{
+		while (ind.x < data->field_size.x)
+			if (drawcol(data, &ind) == 1)
+				break ;
 	}
 }

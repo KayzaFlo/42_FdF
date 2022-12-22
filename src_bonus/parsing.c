@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 12:36:16 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 16:15:31 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static void	populate_field_row(t_data *data, int i, char **line)
 {
 	int		j;
+	int		n;
 	char	**line_split;
-	int		wc;
 
-	j = -1;
 	line_split = ft_split(*line, ' ');
 	free(*line);
 	if (!line_split)
 		free_and_quit(data, "populate_field_row: Wrong file format!", -1);
-	wc = 0;
-	while (line_split[wc])
-		wc++;
-	if (wc < data->field_size.y)
+	n = 0;
+	while (line_split[n])
+		n++;
+	if (n < data->field_size.y)
 		free_and_quit(data, "populate_field_row: Wrong file format!", -1);
+	j = -1;
 	while (++j < data->field_size.y)
 	{
 		data->field[i][j] = ft_atoi(line_split[j]);
@@ -36,10 +36,8 @@ static void	populate_field_row(t_data *data, int i, char **line)
 		if (data->field[i][j] > data->height.y)
 			data->height.y = data->field[i][j];
 	}
-	while (line_split[j])
-		j++;
-	while (j > 0)
-		free(line_split[--j]);
+	while (n > 0)
+		free(line_split[--n]);
 	free(line_split);
 }
 

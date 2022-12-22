@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:01:35 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/20 14:49:08 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 16:08:54 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	draw_update(t_data *data, void func(t_data *, void *), void *param)
 		drawiso(data, black);
 		func(data, param);
 	}
-	set_int2(&gradient, 0xFFFFFF, 0xFF0000);
+	set_int2(&gradient, GRAD_LOW, GRAD_HIGH);
 	drawiso(data, gradient);
 	render(data);
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 12:31:06 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 16:04:04 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc_bonus/fdf.h"
 
-static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
+static void	init_vars(t_data *data, const char *str)
 {
 	t_float2	draw_size;
 
@@ -21,8 +21,6 @@ static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
 	data->height.y = 0;
 	data->amp = 1.0f;
 	data->filepath = (char *)str;
-	set_int2(gradient, 0xFFFFFF, 0xFF0000);
-	set_int2(&data->gradient, 0xFFFFFF, 0xFF0000);
 	set_int2(&data->view_pos, S_WIDTH / 2, S_HEIGHT / 2);
 	data->view_dir = 0;
 	rotate(data, (void *)&data->height);
@@ -67,13 +65,12 @@ static void	init_hooks(t_data *data)
 int	main(int argc, char const *argv[])
 {
 	t_data		data;
-	t_int2		gradient;
 
 	if (argc != 2)
 		return (-1);
 	alloc_field(&data, argv[1]);
 	init_mlx(&data);
-	init_vars(&data, &gradient, argv[1]);
+	init_vars(&data, argv[1]);
 	init_hooks(&data);
 	mlx_loop(data.mlx_ptr);
 	return (0);

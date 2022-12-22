@@ -6,7 +6,7 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2022/12/20 12:50:51 by fgeslin          ###   ########.fr        #
+#    Updated: 2022/12/22 14:19:43 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC_BONUS	=	src_bonus/fdf.c \
 				src_bonus/input.c \
 				src_bonus/draw_basics.c \
 				src_bonus/draw_iso.c \
+				src_bonus/draw_pers.c \
 				src_bonus/tween.c \
 				src_bonus/alloc.c \
 				src_bonus/parsing.c \
@@ -57,15 +58,15 @@ $(NAME): $(LIBFT) $(OBJ)
 	@ $(CC) -o $(NAME) $(OBJ) $(LIBFT) -lmlx -framework OpenGL -framework AppKit
 	@ echo "$(CYAN)$(NAME) $(GREEN)created$(WHITE) ✔️"
 
-$(LIBFT):
-	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}${LIBFT} ${WHITE}..."
-	@ $(MAKE) -C libft/
-	@ echo "$(CYAN)$(LIBFT) $(GREEN)created$(WHITE) ✔️"
-
 bonus: $(LIBFT) $(OBJ_BONUS)
 	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}$(NAME) ${WHITE}..."
 	@ $(CC) -o $(NAME) $(OBJ_BONUS) $(LIBFT) -lmlx -framework OpenGL -framework AppKit
 	@ echo "$(CYAN)$(NAME) $(GREEN)created$(WHITE) ✔️"
+
+$(LIBFT):
+	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}${LIBFT} ${WHITE}..."
+	@ $(MAKE) -C libft/
+	@ echo "$(CYAN)$(LIBFT) $(GREEN)created$(WHITE) ✔️"
 
 clean:
 	@ ${RM} $(OBJ) $(OBJ_BONUS)
@@ -77,6 +78,8 @@ fclean: clean
 	@ $(MAKE) fclean -C libft/
 	@ echo "$(RED)Deleting $(CYAN)$(NAME) $(WHITE)and $(CYAN)$(LIBFT) $(WHITE)binary ✔️"
 
-re: fclean all bonus
+re: fclean all
+
+rebonus: fclean bonus
 
 .PHONY:		all clean fclean re
