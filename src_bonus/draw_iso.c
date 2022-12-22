@@ -6,24 +6,29 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 18:07:57 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 12:41:56 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc_bonus/fdf.h"
 
-static t_int2	get_gradient(t_data *data, int x, int y)
+static t_int2	get_gradient(t_data *data, t_int2 from, char c)
 {
 	t_int2	gradient;
+	t_int2	to;
 	float	height;
 	float	maxheight;
 
 	maxheight = data->height.y - data->height.x;
 	if (maxheight <= 0)
 		maxheight = 1;
-	height = data->field[x][y] - data->height.x;
+	if (c == 'x')
+		set_int2(&to, from.x + 1, from.y);
+	else if (c == 'y')
+		set_int2(&to, from.x, from.y + 1);
+	height = data->field[from.x][from.y] - data->height.x;
 	gradient.x = tween_color(data->gradient, height / maxheight);
-	height = data->field[x][y] - data->height.x;
+	height = data->field[to.x][to.y] - data->height.x;
 	gradient.y = tween_color(data->gradient, height / maxheight);
 	return (gradient);
 }
@@ -77,9 +82,9 @@ void	drawiso(t_data *data, t_int2 gradient)
 			continue ;
 		if (ind.x + 1 < data->field_size.x)
 			drawline(from, field_to_screen(data, ind.x + 1, ind.y),
-				data, get_gradient(data, ind.x + 1, ind.y));
+				data, get_gradient(data, ind, 'x'));
 		if (ind.y + 1 < data->field_size.y)
 			drawline(from, field_to_screen(data, ind.x, ind.y + 1),
-				data, get_gradient(data, ind.x, ind.y + 1));
+				data, get_gradient(data, ind, 'y'));
 	}
 }

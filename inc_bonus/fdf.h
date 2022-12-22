@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 18:06:05 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 12:21:42 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	translate(t_data *data, void *param);
 void	rotate(t_data *data, void *param);
 void	reset(t_data *data, void *param);
 void	zoom(t_data *data, void *param);
-void	free_and_quit(t_data *data, int exitcode);
+void	free_and_quit(t_data *data, char *str, int exitcode);
 
 /* TWEEN */
 int		tween_color(t_int2 gradient, float x);

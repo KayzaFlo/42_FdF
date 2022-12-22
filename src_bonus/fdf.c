@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 18:16:27 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 12:31:06 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_vars(t_data *data, t_int2 *gradient, const char *str)
 	data->is_clicked = 0;
 	data->height.x = 0;
 	data->height.y = 0;
-	data->amp = 0.1f;
+	data->amp = 1.0f;
 	data->filepath = (char *)str;
 	set_int2(gradient, 0xFFFFFF, 0xFF0000);
 	set_int2(&data->gradient, 0xFFFFFF, 0xFF0000);

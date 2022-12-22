@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 17:51:34 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 12:36:01 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ void	rotate(t_data *data, void *param)
 	float	theta;
 
 	mouse = (t_int2 *)param;
-	data->view_dir -= data->last_click_pos.x - mouse->x;
-	data->view_dir = (int)(data->view_dir + 360) % 360;
+	data->view_dir += (data->last_click_pos.x - mouse->x) * 0.2f;
+	if (data->view_dir > 360)
+		data->view_dir -= 360;
+	else if (data->view_dir < 0)
+		data->view_dir += 360;
 	theta = (int)data->view_dir % 180 - 90;
 	if (theta > 0)
 		theta *= -1;
@@ -62,7 +65,7 @@ void	zoom(t_data *data, void *param)
 	}
 }
 
-void	free_and_quit(t_data *data, int exitcode)
+void	free_and_quit(t_data *data, char *str, int exitcode)
 {
 	int	i;
 
@@ -73,6 +76,6 @@ void	free_and_quit(t_data *data, int exitcode)
 		i++;
 	}
 	free(data->field);
-	printf("Free & Exit (%d)\n", exitcode);
+	printf("%s (%d)\n", str, exitcode);
 	exit (exitcode);
 }

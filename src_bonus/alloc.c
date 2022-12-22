@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/21 18:15:46 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 12:26:07 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	set_field_size(t_data *data, const char *path)
 	line = get_next_line(fd);
 	if (!line)
 	{
-		printf("Wrong file format!\n");
+		printf("set_field_size: Wrong file format!");
 		exit(-1);
 	}
 	data->field_size.x = 0;
@@ -74,7 +74,7 @@ void	alloc_field(t_data *data, const char *path)
 	{
 		data->field[i] = ft_calloc(data->field_size.y, sizeof(int));
 		if (!data->field[i])
-			free_and_quit(data, -1);
+			free_and_quit(data, "alloc_field: malloc error!", -1);
 		i++;
 	}
 }
