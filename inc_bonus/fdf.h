@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 16:09:23 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:35:03 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 # define S_WIDTH 1920
 # define S_HEIGHT 1080
+# define HORIZOM 256
 # define MARGIN 32
 # define GRAD_LOW 0x00FFFF
 # define GRAD_HIGH 0xFFFF55
@@ -96,6 +97,7 @@ void	translate(t_data *data, void *param);
 void	rotate(t_data *data, void *param);
 void	reset(t_data *data, void *param);
 void	zoom(t_data *data, void *param);
+void	amp(t_data *data, void *param);
 void	free_and_quit(t_data *data, char *str, int exitcode);
 
 /* TWEEN */

@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:03:20 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 16:12:07 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 16:18:17 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_int2	field_to_screen(t_data *data, int x, int y)
 	return (screen_point);
 }
 
-static int	checkorder(t_data *data, t_int2 *ind)
+static int	checkdepth(t_data *data, t_int2 *ind)
 {
 	if (data->view_dir <= 45 || data->view_dir >= 235)
 		ind->y = data->field_size.y - 1;
@@ -86,13 +86,13 @@ static int	drawcol(t_data *data, t_int2 *ind)
 	if (data->view_dir <= 45 || data->view_dir >= 235)
 	{
 		if (--ind->y < 0)
-			if (checkorder(data, ind) == 1)
+			if (checkdepth(data, ind) == 1)
 				return (1);
 	}
 	else
 	{
 		if (++ind->y >= data->field_size.y)
-			if (checkorder(data, ind) == 1)
+			if (checkdepth(data, ind) == 1)
 				return (1);
 	}
 	cpy_int2(&from, field_to_screen(data, ind->x, ind->y));

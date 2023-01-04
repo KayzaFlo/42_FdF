@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:30:30 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 12:24:00 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/26 11:36:55 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	i_keydown(int key, void *param)
 		free_and_quit(data, "Escape", 0);
 	if (key == 49)
 		draw_update(data, reset, (void *) 0);
+	if (key == 69)
+		draw_update(data, amp, (void *) &key);
+	if (key == 78)
+		draw_update(data, amp, (void *) &key);
 	printf("Key:%d\n", key);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:46:52 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 16:04:04 by fgeslin          ###   ########.fr       */
+/*   Updated: 2022/12/22 16:22:46 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_vars(t_data *data, const char *str)
 	data->is_clicked = 0;
 	data->height.x = 0;
 	data->height.y = 0;
-	data->amp = 1.0f;
+	data->amp = 0.2f;
 	data->filepath = (char *)str;
 	set_int2(&data->view_pos, S_WIDTH / 2, S_HEIGHT / 2);
 	data->view_dir = 0;

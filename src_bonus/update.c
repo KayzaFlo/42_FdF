@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 12:36:01 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:35:56 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,14 @@ void	rotate(t_data *data, void *param)
 
 void	reset(t_data *data, void *param)
 {
-	data->view_pos.x = S_WIDTH / 2 + (int)param;
-	data->view_pos.y = S_HEIGHT / 2 + (int)param;
+	int	i;
+
+	if (param)
+		i = *(int *)param;
+	else
+		i = 0;
+	data->view_pos.x = S_WIDTH / 2 + i;
+	data->view_pos.y = S_HEIGHT / 2 + i;
 }
 
 void	zoom(t_data *data, void *param)
@@ -63,6 +69,14 @@ void	zoom(t_data *data, void *param)
 		data->view_pos.x -= (data->view_pos.x - data->last_click_pos.x) * mult;
 		data->view_pos.y -= (data->view_pos.y - data->last_click_pos.y) * mult;
 	}
+}
+
+void	amp(t_data *data, void *param)
+{
+	if (*(int *)param == 69)
+		data->amp *= 1.2f;
+	if (*(int *)param == 78)
+		data->amp *= 0.8f;
 }
 
 void	free_and_quit(t_data *data, char *str, int exitcode)
