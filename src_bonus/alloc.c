@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 12:53:43 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/22 12:26:07 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:44:27 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,19 @@ void	alloc_field(t_data *data, const char *path)
 			free_and_quit(data, "alloc_field: malloc error!", -1);
 		i++;
 	}
+}
+
+void	free_and_quit(t_data *data, char *str, int exitcode)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->field_size.x)
+	{
+		free(data->field[i]);
+		i++;
+	}
+	free(data->field);
+	printf("%s (%d)\n", str, exitcode);
+	exit (exitcode);
 }

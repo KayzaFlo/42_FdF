@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:30:30 by fgeslin           #+#    #+#             */
-/*   Updated: 2022/12/26 11:36:55 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:43:38 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	i_keydown(int key, void *param)
 		draw_update(data, amp, (void *) &key);
 	if (key == 78)
 		draw_update(data, amp, (void *) &key);
-	printf("Key:%d\n", key);
 	return (0);
 }
 

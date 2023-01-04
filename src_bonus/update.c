@@ -6,7 +6,7 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:45:47 by fgeslin           #+#    #+#             */
-/*   Updated: 2023/01/04 12:35:56 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:44:10 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,4 @@ void	amp(t_data *data, void *param)
 		data->amp *= 1.2f;
 	if (*(int *)param == 78)
 		data->amp *= 0.8f;
-}
-
-void	free_and_quit(t_data *data, char *str, int exitcode)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->field_size.x)
-	{
-		free(data->field[i]);
-		i++;
-	}
-	free(data->field);
-	printf("%s (%d)\n", str, exitcode);
-	exit (exitcode);
 }
