@@ -6,13 +6,14 @@
 #    By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:55:10 by fgeslin           #+#    #+#              #
-#    Updated: 2023/01/04 12:34:58 by fgeslin          ###   ########.fr        #
+#    Updated: 2023/07/07 11:25:20 by fgeslin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #####	CONFIG		############################################################
 NAME		:= fdf
 LIBFT		:= libft/libft.a
+LIBX		:= minilibx_macos/libmlx.a
 CC			:= gcc
 AR			:= ar -rcs
 RM			:= rm -f
@@ -52,14 +53,14 @@ CYAN 		:= \033[1;36m
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(LIBX) $(OBJ)
 	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}$(NAME) ${WHITE}..."
-	@ $(CC) -o $(NAME) $(OBJ) $(LIBFT) -lmlx -framework OpenGL -framework AppKit
+	@ $(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBX) -framework OpenGL -framework AppKit
 	@ echo "$(CYAN)$(NAME) $(GREEN)created$(WHITE) ✔️"
 
-bonus: $(LIBFT) $(OBJ_BONUS)
+bonus: $(LIBFT) $(LIBX) $(OBJ_BONUS)
 	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}$(NAME) ${WHITE}..."
-	@ $(CC) -o $(NAME) $(OBJ_BONUS) $(LIBFT) -lmlx -framework OpenGL -framework AppKit
+	@ $(CC) -o $(NAME) $(OBJ_BONUS) $(LIBFT) $(LIBX) -framework OpenGL -framework AppKit
 	@ echo "$(CYAN)$(NAME) $(GREEN)created$(WHITE) ✔️"
 
 $(LIBFT):
@@ -67,14 +68,21 @@ $(LIBFT):
 	@ $(MAKE) -C libft/
 	@ echo "$(CYAN)$(LIBFT) $(GREEN)created$(WHITE) ✔️"
 
+$(LIBX):
+	@ echo "$(GREEN)Compilation ${WHITE}of ${CYAN}${LIBX} ${WHITE}..."
+	@ $(MAKE) -C minilibx_macos/
+	@ echo "$(CYAN)$(LIBX) $(GREEN)created$(WHITE) ✔️"
+
 clean:
 	@ ${RM} $(OBJ) $(OBJ_BONUS)
 	@ $(MAKE) clean -C libft/
+	@ $(MAKE) clean -C minilibx_macos/
 	@ echo "$(RED)Deleting $(CYAN)$(NAME) $(WHITE)and $(CYAN)$(LIBFT) $(WHITE)objs ✔️"
 
 fclean: clean
 	@ ${RM} $(NAME)
 	@ $(MAKE) fclean -C libft/
+	@ $(MAKE) clean -C minilibx_macos/
 	@ echo "$(RED)Deleting $(CYAN)$(NAME) $(WHITE)and $(CYAN)$(LIBFT) $(WHITE)binary ✔️"
 
 re: fclean all

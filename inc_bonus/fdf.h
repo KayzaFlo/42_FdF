@@ -6,14 +6,14 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2023/01/04 12:35:03 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/07/07 11:46:25 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include <mlx.h>
+# include "../minilibx_macos/mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -23,8 +23,8 @@
 # define S_HEIGHT 1080
 # define HORIZOM 256
 # define MARGIN 32
-# define GRAD_LOW 0x00FFFF
-# define GRAD_HIGH 0xFFFF55
+# define GRAD_LOW 0xFFFFFF
+# define GRAD_HIGH 0xFF0000
 
 enum e_events {
 	ON_KEYDOWN = 2,

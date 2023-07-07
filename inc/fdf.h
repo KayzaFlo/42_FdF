@@ -6,14 +6,14 @@
 /*   By: fgeslin <fgeslin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:49:57 by fgeslin           #+#    #+#             */
-/*   Updated: 2023/01/04 12:47:26 by fgeslin          ###   ########.fr       */
+/*   Updated: 2023/07/07 11:14:55 by fgeslin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include <mlx.h>
+# include "../minilibx_macos/mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <fcntl.h>
