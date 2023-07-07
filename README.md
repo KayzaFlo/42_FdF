@@ -1,8 +1,8 @@
 # FdF
 
 <p align="center">
-  <img src="/screenjulia.png" width="50%" />
-  <img src="/screenmars.gif" width="50%" />
+  <img src="/screenjulia.png" width="49%" />
+  <img src="/screenmars.gif" width="49%" />
 </p>
 
 ## Description
@@ -22,7 +22,7 @@ Created with a graphical library provided by school: 'Minilibx', working only on
 
 ```
     git clone git@github.com:KayzaFlo/42_FdF.git
-    make *or* make bonus
+    make or make bonus
 ```
 
 ## Features
